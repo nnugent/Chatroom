@@ -12,31 +12,38 @@ namespace Server
         NetworkStream stream;
         TcpClient client;
         public string userId;
+
         public Client(NetworkStream Stream, TcpClient Client)
         {
             stream = Stream;
             client = Client;
             userId = "";
         }
+
         public void Send(string Message)
         {
             byte[] message = Encoding.ASCII.GetBytes(Message);
             stream.Write(message, 0, message.Count());
         }
-        public string Recieve()
+
+        public Message RecieveMessage()
         {
+            Message message;
             byte[] recievedMessage = new byte[256];
             stream.Read(recievedMessage, 0, recievedMessage.Length);
-            string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
+            int length = recievedMessage.TakeWhile(b => b != 0).Count();
+            string recievedMessageString = Encoding.ASCII.GetString(recievedMessage, 0, length);
             Console.WriteLine(userId + ": " + recievedMessageString);
-            return recievedMessageString;
+            message = new Message(this, recievedMessageString);
+            return message;
         }
 
         public void SetUserId()
         {
             byte[] recievedMessage = new byte[256];
             stream.Read(recievedMessage, 0, recievedMessage.Length);
-            string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
+            int length = recievedMessage.TakeWhile(b => b != 0).Count();
+            string recievedMessageString = Encoding.ASCII.GetString(recievedMessage, 0, length);
             userId = recievedMessageString;
         }
 

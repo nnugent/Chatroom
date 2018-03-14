@@ -12,34 +12,63 @@ namespace Server
 {
     class Server
     {
-        public static Client client;
+        Dictionary<string, Client> clients = new Dictionary<string, Client>();
         TcpListener server;
+        Queue<Message> messageQueue = new Queue<Message>();
+
         public Server()
         {
             server = new TcpListener(IPAddress.Parse("192.168.0.126"), 9999);
             server.Start();
         }
-        public void   Run()
+        public void Run()
         {
-            AcceptClient();
-            while (true)
-            {
-                string message = client.Recieve();
-                Respond(message);
-            }
+            Task acceptClients = Task.Run(() => AcceptClient());
+            Task queueStep = Task.Run(() => EmptyQueue());
+            acceptClients.Wait();
         }
         private void AcceptClient()
         {
-            TcpClient clientSocket = default(TcpClient);
-            clientSocket = server.AcceptTcpClient();
-            NetworkStream stream = clientSocket.GetStream();
-            client = new Client(stream, clientSocket);
-            client.SetUserId();
-            Console.WriteLine(client.UserId + " has Connected.");
+            
+            while (true)
+            {
+                Client client;
+                TcpClient clientSocket = default(TcpClient);
+                clientSocket = server.AcceptTcpClient();
+                NetworkStream stream = clientSocket.GetStream();
+                client = new Client(stream, clientSocket);
+                client.SetUserId();
+                Console.WriteLine(client.UserId + " has Connected.");
+                clients.Add(client.UserId, client);
+                Task scanner = Task.Run(() => MessageScan(client));
+            }
         }
-        private void Respond(string body)
+
+        public void MessageScan(Client client)
         {
-             client.Send(body);
+            while (true)
+            {
+                messageQueue.Enqueue(client.RecieveMessage());
+            }
+        }
+        
+        public void EmptyQueue()
+        {
+            while (true)
+            {
+                if(messageQueue.Count > 0) Respond(messageQueue.Dequeue());
+            }
+        }
+
+        private void Respond(Message message)
+        {
+             foreach(KeyValuePair<string, Client> item in clients)
+            {
+                if (!(message.UserId == item.Key))
+                {
+                    item.Value.Send(message.UserId + ": " + message.Body);
+                }
+            }
         }
     }
 }
