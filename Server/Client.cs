@@ -11,12 +11,12 @@ namespace Server
     {
         NetworkStream stream;
         TcpClient client;
-        public string UserId;
+        public string userId;
         public Client(NetworkStream Stream, TcpClient Client)
         {
             stream = Stream;
             client = Client;
-            UserId = "495933b6-1762-47a1-b655-483510072e73";
+            userId = "";
         }
         public void Send(string Message)
         {
@@ -28,9 +28,28 @@ namespace Server
             byte[] recievedMessage = new byte[256];
             stream.Read(recievedMessage, 0, recievedMessage.Length);
             string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
-            Console.WriteLine(recievedMessageString);
+            Console.WriteLine(userId + ": " + recievedMessageString);
             return recievedMessageString;
         }
 
+        public void SetUserId()
+        {
+            byte[] recievedMessage = new byte[256];
+            stream.Read(recievedMessage, 0, recievedMessage.Length);
+            string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
+            userId = recievedMessageString;
+        }
+
+        public string UserId
+        {
+            get
+            {
+                return userId;
+            }
+            set
+            {
+                userId = value;
+            }
+        }
     }
 }

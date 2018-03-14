@@ -16,3 +16,10 @@ C:\Users\nrnug\Downloads\ChatroomStarter\ChatroomStarter\ChatroomStarter\Chatroo
 C:\Users\nrnug\Downloads\ChatroomStarter\ChatroomStarter\ChatroomStarter\ChatroomStarter\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
 C:\Users\nrnug\Downloads\ChatroomStarter\ChatroomStarter\ChatroomStarter\ChatroomStarter\Server\obj\Debug\Server.exe
 C:\Users\nrnug\Downloads\ChatroomStarter\ChatroomStarter\ChatroomStarter\ChatroomStarter\Server\obj\Debug\Server.pdb
+C:\Users\nrnug\OneDrive\Documents\devCodeCamp\Projects\ChatroomStarter\Server\bin\Debug\Server.exe.config
+C:\Users\nrnug\OneDrive\Documents\devCodeCamp\Projects\ChatroomStarter\Server\bin\Debug\Server.exe
+C:\Users\nrnug\OneDrive\Documents\devCodeCamp\Projects\ChatroomStarter\Server\bin\Debug\Server.pdb
+C:\Users\nrnug\OneDrive\Documents\devCodeCamp\Projects\ChatroomStarter\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
+C:\Users\nrnug\OneDrive\Documents\devCodeCamp\Projects\ChatroomStarter\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Users\nrnug\OneDrive\Documents\devCodeCamp\Projects\ChatroomStarter\Server\obj\Debug\Server.exe
+C:\Users\nrnug\OneDrive\Documents\devCodeCamp\Projects\ChatroomStarter\Server\obj\Debug\Server.pdb

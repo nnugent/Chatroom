@@ -10,10 +10,13 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            Client client = new Client("127.0.0.1", 9999);
-            client.Send();
-            client.Recieve();
-            Console.ReadLine();
+            Client client = new Client("192.168.0.126", 9999);
+            Console.WriteLine("Enter your User Name:");
+            Task send = new Task(() => client.Send());
+            Task receive = new Task(() => client.Recieve());
+            Parallel.Invoke(() => send.Start(), () => receive.Start());
+            send.Wait();
+            receive.Wait();
         }
     }
 }

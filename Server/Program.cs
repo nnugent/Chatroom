@@ -10,9 +10,10 @@ namespace Server
     {
         static void Main(string[] args)
         {
+            Server server = new Server();
             while (true)
             {
-                new Server().Run();
+                server.Run();
                 Console.ReadLine();
             }
         }

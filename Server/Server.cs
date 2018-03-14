@@ -16,22 +16,26 @@ namespace Server
         TcpListener server;
         public Server()
         {
-            server = new TcpListener(IPAddress.Parse("127.0.0.1"), 9999);
+            server = new TcpListener(IPAddress.Parse("192.168.0.126"), 9999);
             server.Start();
         }
-        public void Run()
+        public void   Run()
         {
             AcceptClient();
-            string message = client.Recieve();
-            Respond(message);
+            while (true)
+            {
+                string message = client.Recieve();
+                Respond(message);
+            }
         }
         private void AcceptClient()
         {
             TcpClient clientSocket = default(TcpClient);
             clientSocket = server.AcceptTcpClient();
-            Console.WriteLine("Connected");
             NetworkStream stream = clientSocket.GetStream();
             client = new Client(stream, clientSocket);
+            client.SetUserId();
+            Console.WriteLine(client.UserId + " has Connected.");
         }
         private void Respond(string body)
         {
