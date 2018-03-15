@@ -15,6 +15,7 @@ namespace Server
         Dictionary<string, Client> clients = new Dictionary<string, Client>();
         TcpListener server;
         Queue<Message> messageQueue = new Queue<Message>();
+        TextLogger logger = new TextLogger();
 
         public Server()
         {
@@ -38,6 +39,7 @@ namespace Server
                 NetworkStream stream = clientSocket.GetStream();
                 client = new Client(stream, clientSocket);
                 client.SetUserId();
+                logger.Log(client.UserId + " has Connected.");
                 Console.WriteLine(client.UserId + " has Connected.");
                 clients.Add(client.UserId, client);
                 Task scanner = Task.Run(() => MessageScan(client));
@@ -56,7 +58,11 @@ namespace Server
         {
             while (true)
             {
-                if(messageQueue.Count > 0) Respond(messageQueue.Dequeue());
+                if (messageQueue.Count > 0)
+                {
+                    logger.Log(messageQueue.Peek());
+                    Respond(messageQueue.Dequeue());
+                }        
             }
         }
 
